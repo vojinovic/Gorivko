@@ -22,8 +22,11 @@ jobs:
         run: |
           pip install requests beautifulsoup4
 
-      - name: List repo files  # OVAJ deo sada stoji na pravom mestu
+      - name: List repo files
         run: ls -la
+
+      - name: Show full directory structure
+        run: find . -type f
 
       - name: Run scraper
         run: python scrape_fuel_prices.py
