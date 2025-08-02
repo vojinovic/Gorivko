@@ -22,9 +22,11 @@ jobs:
         run: |
           pip install requests beautifulsoup4
 
+      - name: List repo files  # OVAJ deo sada stoji na pravom mestu
+        run: ls -la
+
       - name: Run scraper
-        run: |
-          python scrape_fuel_prices.py
+        run: python scrape_fuel_prices.py
 
       - name: Commit and push changes
         run: |
