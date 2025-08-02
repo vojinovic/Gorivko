@@ -1,0 +1,35 @@
+name: Daily Fuel Price Update
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Pokrece se svaki dan u 06:00 UTC (08:00 po srpskom vremenu)
+  workflow_dispatch:     # Omogucava rucno pokretanje
+
+jobs:
+  update-fuel-prices:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4
+
+      - name: Run scraper
+        run: |
+          python scrape_fuel_prices.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add index.html
+          git commit -m "Auto update fuel prices" || echo "No changes to commit"
+          git push
